@@ -1,0 +1,27 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="res_config_settings_project_inherit_form_view">
+            <field name="name">res_config_settings_project_inherit_form_view</field>
+            <field name="model">res.config.settings</field>
+            <field name="priority" eval="40"/>
+            <field name="inherit_id" ref="project.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@name='project_time']" position="after">
+                    <h2>Bot Chat Management</h2>
+                    <div class="col-12 col-lg-6 o_setting_box" id="token_map_view">
+                        <div class ="container mt-3">
+                            <label for="bot_api_token" string="Bot Token"/>
+                            <field name ="bot_api_token"/>
+                            <div class ="text-rigth" style="position:relative;">
+                                <a class="oe_link"  href="https://www.mapbox.com/" target="_blank">
+                                    <i class="fa fa-arrow-right"/>
+                                    Get token
+                                </a>
+                            </div>
+                        </div>
+                </div>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="co_group_chat_form_view" model="ir.ui.view">
+            <field name="name">co.group.chat.form.view</field>
+            <field name="model">co.group.chat</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="chat_id"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="co_group_chat_tree_view" model="ir.ui.view">
+            <field name="name">co.group.chat.tree</field>
+            <field name="model">co.group.chat</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="co_group_chat_action" model="ir.actions.act_window">
+            <field name="name">Group Chat</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">co.group.chat</field>
+            <field name="view_mode">tree,form,kanban</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    There is no examples click here to add new ModelTitle.
+                </p>
+            </field>
+        </record>
+
+    </data>
+</odoo>

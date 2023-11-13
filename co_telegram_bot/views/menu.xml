@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <menuitem name="Telegram Message" id="co_social_root_menu"
+                    web_icon="co_telegram_bot,static/description/icon.png"/>
+        <menuitem name="Group Chat" id="co_res_contact_parent_menu"
+                    parent="co_telegram_bot.co_social_root_menu"
+                    sequence="2"
+                    action="co_telegram_bot.co_group_chat_action"/>
+    </data>
+</odoo>
