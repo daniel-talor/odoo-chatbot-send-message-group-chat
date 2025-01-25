@@ -1,5 +1,11 @@
-from odoo import models, fields, api
+
 import requests, logging
+
+from odoo import models
+from pip._internal.exceptions import NetworkConnectionError
+
+_logger = logging.getLogger(__name__)
+
 
 class Task(models.Model):
     _inherit = "project.task"
@@ -32,27 +38,29 @@ class Task(models.Model):
             for group_chat in self.project_id.group_chat_ids:
                 try:
                     title = f"Message sent to chat {group_chat.name}: {group_chat.chat_id}\n"
-                    response = session.post("https://api.telegram.org/bot{}/sendMessage".format(api_token), json={
-                        "chat_id": group_chat.chat_id.strip(),
-                        "text": title + message
-                    })
+                    response = session.post(
+                        f"https://api.telegram.org/bot{api_token}/sendMessage", 
+                        json={
+                            "chat_id": group_chat.chat_id.strip(),
+                            "text": title + message
+                        }
+                    )
                     response.raise_for_status()
 
-                    logging.info(f"Message sent to chat {group_chat.chat_id}:\n{message}")
-
+                    _logger.info(f"Message sent to chat {group_chat.chat_id}:\n{message}")
+                except NetworkConnectionError as exc:
+                    assert exc.response
+                    logger.critical(
+                        "HTTP error %s while getting %s",
+                        exc.response.status_code,
+                        url,
+                    )
+                    raise
                 except Exception as e:
-                    logging.error(f"Error sending message: {e}")
+                    _logger.error(f"Error sending message: {e}")
+                    raise
 
     def _track_subtype(self, init_values):
-        self.ensure_one()
-        if "kanban_state_label" in init_values and self.kanban_state == "blocked":
-            return self.env.ref('project.mt_task_blocked')
-        elif "kanban_state_label" in init_values and self.kanban_state == "done":
-            return self.env.ref("project.mt_task_ready")
-        elif "stage_id" in init_values:
-            return self.env.ref("project.mt_task_stage")
-
         if self.project_id.group_chat_ids:
             self.send_message(init_values)
-
         return super(Task, self)._track_subtype(init_values)

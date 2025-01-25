@@ -1,4 +1,4 @@
-from odoo import models, fields, api
+from odoo import models, fields
 
 class GroupChat(models.Model):
     _name = "co.group.chat"
